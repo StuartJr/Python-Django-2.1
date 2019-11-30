@@ -1,0 +1,45 @@
+{% extends "layout/basic.html" %}
+
+{%block content%}
+{%for bb in bbs.object_list%}
+<div class="b">
+	<h2><a href="{% url 'detail' pk=bb.pk%}">{{bb.title}}</a></h2>
+	<p>{{bb.content}}</p>
+	<h3>{{bb.price}}</h3>
+	<p><a href="{% url 'by_rubric' bb.rubric.pk%}">
+	{{bb.rubric.name}}</a></p>
+	<p>{{bb.published|date:'DATETIME_FORMAT'}}</p>
+	<p><a href="{% url 'edit' pk=bb.pk%}">Исправить</a></p>
+	<p><a href="{% url 'delete' pk=bb.pk %}">Удалить</a></p>
+	<p>
+		{% for d in date_list%}
+		{{d.year}}
+		{% endfor %}
+	</p>
+	<ul class="pagination">
+	{% if page.has_previous%}
+	<a href="?page={{page.previous_page_number}}"><li class="page-item disabled">
+      <span class="page-link">Previous</span>
+    </li></a>
+	
+	{% endif %}
+	{% for n in bbs.paginator.page_range%}
+	<li class="page-item">
+		<a class="page-link" href="?page={{n}}">{{n}}</a>
+	</li>
+	{%endfor%}
+	{% if page.has_next %}
+	
+	<li class="page-item">
+      <a class="page-link" href="?page={{page.next_page_number}}">Next</a>
+    </li>
+	</ul>
+	{% endif %}
+	 {% empty %}
+	  <h1>No comment</h1>
+
+</div>
+{%endfor%}
+{%endblock%}
+
+	

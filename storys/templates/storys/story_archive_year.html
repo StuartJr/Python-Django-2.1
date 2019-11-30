@@ -1,0 +1,21 @@
+{% extends "layout/basic.html" %}
+
+{%block content%}
+{%for bb in bbs%}
+<div class="b">
+	<h2><a href="{% url 'detail' pk=bb.pk%}">{{bb.title}}</a></h2>
+	<p>{{bb.content}}</p>
+	<h3>{{bb.price}}</h3>
+	<p><a href="{% url 'by_rubric' bb.rubric.pk%}">
+	{{bb.rubric.name}}</a></p>
+	<p>{{bb.published|date:"d.m.Y H:i:s"}}</p>
+	<p><a href="{% url 'edit' pk=bb.pk%}">Исправить</a></p>
+	<p><a href="{% url 'delete' pk=bb.pk %}">Удалить</a></p>
+	<p>
+		{% for d in date_list%}
+		{{d.year}}
+		{% endfor %}
+	</p>
+</div>
+{%endfor%}
+{%endblock%}

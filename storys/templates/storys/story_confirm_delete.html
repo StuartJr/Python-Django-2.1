@@ -1,0 +1,15 @@
+{% extends 'layout/basic.html'%}
+
+{%block title%}Удаление объявления{%endblock%}
+
+{% block content %}
+<h2>Удаление обявлений</h2>
+<p>Рубрика:{{bb.rubric.name}}</p>
+<p>Товар:{{bb.title}}</p>
+<p>{{bb.content}}</p>
+<p>Цена:{{bb.price}}</p>
+<form method="POST">
+	{%csrf_token%}
+	<input type="submit" value="Удалить">
+</form>
+{%endblock%}
