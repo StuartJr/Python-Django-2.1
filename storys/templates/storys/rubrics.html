@@ -1,1 +1,11 @@
 {% extends 'layout/basic.html'%}
+{%block title%}Рубрики{%endblock%}
+
+{%block content%}
+<h2>Рубрики</h2>
+<form method="post">
+	{%csrf_token%}
+	{{formset.as_p}}
+	<input type="submit" value="сохранить">
+</form>
+{% endblock %}

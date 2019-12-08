@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 from .models import Story
 from .models import Rubric
 from .forms import Storyform
@@ -15,7 +15,18 @@ from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.forms import modelformset_factory
 
-
+def rubrics(request):
+	RubricFormSet = modelformset_factory(Rubric, fields=('name',),
+										can_delete = True)
+	if request.method == 'POST':
+		formset = RubricFormSet(request.POST)
+		if formset.is_valid():
+			formset.save()
+			return redirect('index')
+	else:
+		formset = RubricFormSet()
+	context = {'formset':formset}
+	return render(request, 'storys/rubrics.html', context)
 
 def delete(request, pk):
 	bb=Story.objects.get(pk=pk)

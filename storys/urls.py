@@ -1,4 +1,5 @@
 from django.urls import path
+from .views import rubrics
 from .views import StorysIndexView, StoryByRubricView
 from .views import StoryCreateView, StoryEditView, StoryDeleteView
 from .views import StoryAddView, StoryDetailView, StoryRedirectView
@@ -6,6 +7,7 @@ from .views import StoryArchiveYear, StoryArchiveMounth, index, editet, delete
 
 
 urlpatterns = [
+	path('rubrics/', rubrics, name='rubrics' ),
 	path('detail/<int:pk>/', StoryDetailView.as_view(), name = 'detail'),
 	path('detail/<int:year>/<int:month>/<int:day>/<int:pk>/', StoryRedirectView.as_view(), name ='old_detail' ),
 	path('delete/<int:pk>/', delete, name='delete'),
