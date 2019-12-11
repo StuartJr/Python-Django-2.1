@@ -14,14 +14,19 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.forms import modelformset_factory
+from django.forms.formsets import ORDERING_FIELD_NAME
 
 def rubrics(request):
 	RubricFormSet = modelformset_factory(Rubric, fields=('name',),
-										can_delete = True)
+										can_delete = True, can_order = True)
 	if request.method == 'POST':
 		formset = RubricFormSet(request.POST)
 		if formset.is_valid():
-			formset.save()
+			for form in formset:
+				if form.cleaned_data:
+					rubric = form.save(commit = False)
+					rubric.order = form.cleaned_data[ORDERING_FIELD_NAME]
+					rubric.save()
 			return redirect('index')
 	else:
 		formset = RubricFormSet()
