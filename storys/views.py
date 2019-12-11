@@ -27,6 +27,7 @@ def rubrics(request):
 					rubric = form.save(commit = False)
 					rubric.order = form.cleaned_data[ORDERING_FIELD_NAME]
 					rubric.save()
+			formset.save()			
 			return redirect('index')
 	else:
 		formset = RubricFormSet()
