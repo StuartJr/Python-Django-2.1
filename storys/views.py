@@ -13,12 +13,24 @@ from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteVi
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, HttpResponse
-from django.forms import modelformset_factory
+from django.forms import modelformset_factory, BaseModelFormSet
 from django.forms.formsets import ORDERING_FIELD_NAME
+from django.core import validators
+from django.core.exceptions import ValidationError
+
+class RubricBaseFormSet(BaseModelFormSet):
+	def clean(self):
+		super().clean()
+		names = [form.cleaned_data['name'] for form in self.forms \
+		if 'name' in form.cleaned_data]
+		if('Недвижимост'not in names) or ('Транспорт'not in names) or ('Мебель'not in names):
+			raise ValidationError('Добавте рубрики недвижимости,' +\
+									'транспорта и мебели')
 
 def rubrics(request):
 	RubricFormSet = modelformset_factory(Rubric, fields=('name',),
-										can_delete = True, can_order = True)
+										can_delete = True, can_order = True,
+										formset = RubricBaseFormSet)
 	if request.method == 'POST':
 		formset = RubricFormSet(request.POST)
 		if formset.is_valid():
