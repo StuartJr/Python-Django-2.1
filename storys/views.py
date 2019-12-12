@@ -13,10 +13,24 @@ from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteVi
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, HttpResponse
-from django.forms import modelformset_factory, BaseModelFormSet
+from django.forms import modelformset_factory, BaseModelFormSet, inlineformset_factory
 from django.forms.formsets import ORDERING_FIELD_NAME
 from django.core import validators
 from django.core.exceptions import ValidationError
+
+def bbs(request, rubric_id):
+	StorysFormSet = inlineformset_factory(Rubric, Story, form = Storyform, extra = 0)
+	rubric = Rubric.objects.get(pk=rubric_id)
+	if request.method == 'POST':
+		formset = StorysFormSet(request.POST, instance = rubric)
+		if formset.is_valid():
+			formset.save()	
+		return redirect('index')
+	else:
+		formset = StorysFormSet(instance = rubric)
+	context = {'formset':formset, 'current_rubric':rubric}
+	return render(request, 'storys/bbs.html', context)
+	print(context)
 
 class RubricBaseFormSet(BaseModelFormSet):
 	def clean(self):

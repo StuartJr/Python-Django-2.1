@@ -8,6 +8,8 @@
 	<h3>{{bb.price}}</h3>
 	<p><a href="{% url 'by_rubric' bb.rubric.pk%}">
 	{{bb.rubric.name}}</a></p>
+	<p><a href="{% url 'bbs' bb.rubric.pk%}">
+	{{bb.rubric.name}}</a></p>
 	<p>{{bb.published|date:'DATETIME_FORMAT'}}</p>
 	<p><a href="{% url 'edit' pk=bb.pk%}">Исправить</a></p>
 	<p><a href="{% url 'delete' pk=bb.pk %}">Удалить</a></p>
