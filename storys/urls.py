@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth.views import LoginView, LogoutView
 from .views import rubrics, bbs
 from .views import StorysIndexView, StoryByRubricView
 from .views import StoryCreateView, StoryEditView, StoryDeleteView
@@ -7,6 +8,8 @@ from .views import StoryArchiveYear, StoryArchiveMounth, index, editet, delete
 
 
 urlpatterns = [
+	path('accounts/logout/', LogoutView.as_view(next_page='index'), name = 'logout'),
+	path('accounts/login/', LoginView.as_view(), name = 'login'),
 	path('bbs/<int:rubric_id>/', bbs, name = 'bbs'),
 	path('rubrics/', rubrics, name='rubrics' ),
 	path('detail/<int:pk>/', StoryDetailView.as_view(), name = 'detail'),

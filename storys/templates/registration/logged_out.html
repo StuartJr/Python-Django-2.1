@@ -1,0 +1,15 @@
+{% extends 'layout/basic.html'%}
+
+{% block title%} Выход {%endblock%}
+
+{%block content%}
+<h2>Выход</h2>
+
+{% else %}
+<form method="post">
+	{%csrf_token%}
+	{{form.as_p}}
+	<input type="hidden" name = "next" value="{{next}}">
+	<input type="submit" value="Выйти">
+</form>
+{%endblock%}
