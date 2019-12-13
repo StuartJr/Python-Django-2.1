@@ -19,13 +19,13 @@ from django.core import validators
 from django.core.exceptions import ValidationError
 
 def bbs(request, rubric_id):
-	StorysFormSet = inlineformset_factory(Rubric, Story, form = Storyform, extra = 0)
+	StorysFormSet = inlineformset_factory(Rubric, Story, form = Storyform, extra = 1)
 	rubric = Rubric.objects.get(pk=rubric_id)
 	if request.method == 'POST':
 		formset = StorysFormSet(request.POST, instance = rubric)
 		if formset.is_valid():
 			formset.save()	
-		return redirect('index')
+			return redirect('index')
 	else:
 		formset = StorysFormSet(instance = rubric)
 	context = {'formset':formset, 'current_rubric':rubric}
