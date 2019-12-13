@@ -1,0 +1,9 @@
+{% autoescape off %}
+Уважаемый {{user.name}}
+Вы отправили запрос на сброс пороля. Чтобы выполнить сброс, пройдите по
+{{protocol}}://{{domain}}{% url 'password_reset_confirm' uidb64=uid token=token%}
+
+
+До свидания!
+С уважением, администратор сайта "Доска объялений".
+{% endautoescape %}

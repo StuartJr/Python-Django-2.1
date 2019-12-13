@@ -1,6 +1,10 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.contrib.auth.views import PasswordChangeDoneView
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.auth.views import PasswordResetDoneView
+from django.contrib.auth.views import PasswordResetConfirmView
+from django.contrib.auth.views import PasswordResetCompleteView
 from .views import rubrics, bbs
 from .views import StorysIndexView, StoryByRubricView
 from .views import StoryCreateView, StoryEditView, StoryDeleteView
@@ -9,6 +13,12 @@ from .views import StoryArchiveYear, StoryArchiveMounth, index, editet, delete
 
 
 urlpatterns = [
+	path('accounts/reset/done/', PasswordResetCompleteView.as_view(template_name = 'registration/password_confirmed.html'), name = 'password_reset_comlete'),
+	path('accounts/reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name = 'registration/confirm_password.html'), name = 'password_reset_confirm'),
+	path('accounts/password_reset/done/', PasswordResetDoneView.as_view(template_name = 'registration/email_sent.html'), name = 'password_reset_done'),
+	path('accounts/password_reset/', PasswordResetView.as_view(template_name = 'registration/reset_password.html',
+		subject_template_name = 'registration/reset_object.txt', email_template_name = 'registration/reset_email.html'),
+		name = 'password_reset'),
 	path('accounts/password_change/', PasswordChangeView.as_view(template_name = 'registration/change_password.html'), name = 'password_change'),
 	path('accounts/password_change/done/', PasswordChangeDoneView.as_view(template_name = 'registration/password_change.html'), name = 'password_change_done'),
 	path('accounts/logout/', LogoutView.as_view(next_page='index'), name = 'logout'),
