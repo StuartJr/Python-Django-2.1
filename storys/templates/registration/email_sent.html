@@ -1,8 +1,8 @@
 {% extends 'layout/basic.html'%}
 
-{% block title%} Отправка письма {%endblock%}
+{% block title%} {{title}} {%endblock%}
 
 {%block content%}
-<h2>Писмо отправленно </h2>
+<h2>Письмо с инструкцией по восстановлению пароля отправленно. </h2>
 <a href="{% url 'index'%}">Перейти на главную страницу</a>
 {% endblock %}

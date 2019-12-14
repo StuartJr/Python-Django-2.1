@@ -51,6 +51,7 @@ MIDDLEWARE = [
 ]
 
 LOGIN_REDIRECT_URL = 'index'
+LOGIN_URL = 'login'
 
 ROOT_URLCONF = 'myfirst.urls'
 

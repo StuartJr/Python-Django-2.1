@@ -21,7 +21,7 @@ urlpatterns = [
 		name = 'password_reset'),
 	path('accounts/password_change/', PasswordChangeView.as_view(template_name = 'registration/change_password.html'), name = 'password_change'),
 	path('accounts/password_change/done/', PasswordChangeDoneView.as_view(template_name = 'registration/password_change.html'), name = 'password_change_done'),
-	path('accounts/logout/', LogoutView.as_view(next_page='index'), name = 'logout'),
+	path('accounts/logout/', LogoutView.as_view(next_page=None), name = 'logout'),
 	path('accounts/login/', LoginView.as_view(), name = 'login'),
 	path('bbs/<int:rubric_id>/', bbs, name = 'bbs'),
 	path('rubrics/', rubrics, name='rubrics' ),

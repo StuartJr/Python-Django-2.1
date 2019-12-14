@@ -1,15 +1,15 @@
 {% extends 'layout/basic.html'%}
 
-{% block title%} Выход {%endblock%}
+{% block title%} {{title}} {%endblock%}
 
 {%block content%}
-<h2>Выход</h2>
 
-
+<h2>Вы успешно вышли из своего профиля </h2>
+<a href="{% url 'index'%}">Перейти на главную страницу</a>
 <form method="post">
 	{%csrf_token%}
 	{{form.as_p}}
 	<input type="hidden" name = "next" value="{{next}}">
-	<input type="submit" value="Выйти">
+	
 </form>
 {%endblock%}

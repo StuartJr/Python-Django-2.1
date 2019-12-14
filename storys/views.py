@@ -12,11 +12,14 @@ from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.urls import reverse_lazy, reverse
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.forms import modelformset_factory, BaseModelFormSet, inlineformset_factory
 from django.forms.formsets import ORDERING_FIELD_NAME
 from django.core import validators
 from django.core.exceptions import ValidationError
+from django.contrib.auth.views import redirect_to_login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def bbs(request, rubric_id):
 	StorysFormSet = inlineformset_factory(Rubric, Story, form = Storyform, extra = 1)
@@ -40,11 +43,12 @@ class RubricBaseFormSet(BaseModelFormSet):
 		if('Недвижимост'not in names) or ('Транспорт'not in names) or ('Мебель'not in names):
 			raise ValidationError('Добавте рубрики недвижимости,' +\
 									'транспорта и мебели')
-
+@login_required
 def rubrics(request):
 	RubricFormSet = modelformset_factory(Rubric, fields=('name',),
 										can_delete = True, can_order = True,
 										formset = RubricBaseFormSet)
+	# if request.user.is_authenticated:
 	if request.method == 'POST':
 		formset = RubricFormSet(request.POST)
 		if formset.is_valid():
@@ -59,7 +63,10 @@ def rubrics(request):
 		formset = RubricFormSet()
 	context = {'formset':formset}
 	return render(request, 'storys/rubrics.html', context)
+	# else:
+	# 	return redirect_to_login(reverse('rubrics'))
 
+@login_required
 def delete(request, pk):
 	bb=Story.objects.get(pk=pk)
 	if request.method == 'POST':
@@ -70,6 +77,7 @@ def delete(request, pk):
 		context = {'bb':bb}
 		return render(request, 'storys/story_confirm_delete.html', context)
 
+@login_required
 def editet(request, pk):
 	bb=Story.objects.get(pk=pk)
 	if request.method == 'POST':
@@ -240,7 +248,7 @@ class StoryDetailView(DetailView):
 		context['rubrics']=Rubric.objects.all()
 		return context
 
-class StoryCreateView(CreateView):
+class StoryCreateView(LoginRequiredMixin, CreateView):
 	template_name='storys/create.html'
 	form_class=Storyform
 	success_url=reverse_lazy('index')
