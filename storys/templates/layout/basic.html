@@ -14,10 +14,15 @@
 	<nav>
 		<a href="{% url 'password_change'%}">Сменить пороль</a>
 		<a href="{% url 'logout'%}">Выйти</a>
+		{% if user.is_authenticated %}
+		{%else%}
 		<a href="{% url 'login'%}">Войти</a>
+		{%endif%}
 		<a href="{% url 'index'%}">Главная</a>
+		{% if perms.storys.add_bb %}
 		<a href="{%url 'add'%}">Добавить</a>
 		<a href="{% url 'rubrics'%}">Рубрики</a>
+		{%endif%}
 		{% for rubric in rubrics%}
 		<a href="{% url 'by_rubric' rubric.pk %}">
 		{{rubric.name}}</a>
