@@ -1,0 +1,14 @@
+{% extends 'layout/basic.html'%}
+
+{% block title%} Результат поиска {%endblock%}
+
+{%block content%}
+<h2>Результат поиска</h2>
+{{bbs}}
+<form method="post">
+	{%csrf_token%}
+	{{form.as_p}}
+	<input type="hidden" name = "next" value="{{next}}">
+	<a href="{% url 'index'%}">Перейти на главную страницу</a>
+</form>
+{%endblock%}

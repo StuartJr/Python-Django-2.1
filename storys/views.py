@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from .models import Story
 from .models import Rubric
-from .forms import Storyform
+from .forms import Storyform, SearchForm
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
 from django.core.paginator import Paginator, Page
@@ -20,6 +20,20 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.views import redirect_to_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+def search(request):
+	if request.method == 'POST':
+		sf = SearchForm(request.POST)
+		if sf.is_valid():
+			keyword = sf.cleaned_data['keyword']
+			rubric_id = sf.cleaned_data['rubric'].pk
+			bbs = Story.objects.filter()
+			context = {'bbs':bbs}
+			return (render(request, 'storys/search_result.html', context))
+	else:
+		sf=SearchForm()
+	context = {'form':sf}
+	return render(request, 'storys/search.html', context)
 
 def bbs(request, rubric_id):
 	StorysFormSet = inlineformset_factory(Rubric, Story, form = Storyform, extra = 1)

@@ -25,6 +25,3 @@ class Rubric(models.Model):
 		verbose_name = 'Рубрика'
 		ordering = ['order','name']
 
-class AdvUser (models.Model):
-	is_activated = models.BooleanField(default = True)
-	user = models.OneToOneField(User, on_delete=models.CASCADE)

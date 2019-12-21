@@ -12,6 +12,7 @@
 		<h1>Объявление</h1>
 	</header>
 	<nav>
+		<a href="{% url 'search'%}">Искать</a>
 		<a href="{% url 'password_change'%}">Сменить пороль</a>
 		<a href="{% url 'logout'%}">Выйти</a>
 		{% if user.is_authenticated %}

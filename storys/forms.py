@@ -2,12 +2,15 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.core import validators
 from django.forms import ModelForm
-
 from django.forms import DecimalField
 from django.forms.widgets import Select, SelectDateWidget
 from .models import Story, Rubric
 
 
+class SearchForm(forms.Form):
+	keyword = forms.CharField(max_length=20, label = 'Искомое слово')
+	rubric = forms.ModelChoiceField(queryset = Rubric.objects.all(),
+		label = 'Рубрика')
 
 class Storyform(forms.ModelForm):
 	def clean(self):
