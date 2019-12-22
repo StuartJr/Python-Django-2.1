@@ -20,6 +20,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.views import redirect_to_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count,Q
 
 def search(request):
 	if request.method == 'POST':
@@ -27,8 +28,9 @@ def search(request):
 		if sf.is_valid():
 			keyword = sf.cleaned_data['keyword']
 			rubric_id = sf.cleaned_data['rubric'].pk
-			bbs = Story.objects.filter()
-			context = {'bbs':bbs}
+			rubric = Rubric.objects.get(pk=rubric_id)
+			bbs = Story.objects.filter(rubric = rubric_id, title__icontains = keyword)
+			context = {'current_rubric':rubric, 'bbs':bbs, 'keyword':keyword, 'rubric_id':rubric_id}
 			return (render(request, 'storys/search_result.html', context))
 	else:
 		sf=SearchForm()

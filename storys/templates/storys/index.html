@@ -18,7 +18,14 @@
 		{{d.year}}
 		{% endfor %}
 	</p>
-	<ul class="pagination">
+	
+	 {% empty %}
+	  <h1>No comment</h1>
+
+</div>
+{%endfor%}
+
+<ul class="pagination">
 	{% if page.has_previous%}
 	<a href="?page={{page.previous_page_number}}"><li class="page-item disabled">
       <span class="page-link">Previous</span>
@@ -37,11 +44,6 @@
     </li>
 	</ul>
 	{% endif %}
-	 {% empty %}
-	  <h1>No comment</h1>
-
-</div>
-{%endfor%}
 {%endblock%}
 
 	

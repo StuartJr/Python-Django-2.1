@@ -3,12 +3,26 @@
 {% block title%} Результат поиска {%endblock%}
 
 {%block content%}
-<h2>Результат поиска</h2>
-{{bbs}}
-<form method="post">
-	{%csrf_token%}
-	{{form.as_p}}
-	<input type="hidden" name = "next" value="{{next}}">
-	<a href="{% url 'index'%}">Перейти на главную страницу</a>
-</form>
+<h2>Результат поиска:</h2>
+{% if bbs %}
+	<h5>Найдено: {{bbs.count}}</h5>
+	<h5>Запрос: '{{keyword}}'</h5>
+	<h5>Рубрика: '{{current_rubric.name}}'</h5>
+{%for bb in bbs%}
+	<div class="b">
+		<h2><a href="{% url 'detail' pk=bb.pk%}">{{bb.title}}</a></h2>
+		<p>{{bb.content}}</p>
+		<h3>{{bb.price}}</h3>
+		<p><a href="{% url 'by_rubric' bb.rubric.pk%}">
+		{{bb.rubric.name}}</a></p>
+		<p>{{bb.published|date:"d.m.Y H:i:s"}}</p>
+		<p><a href="{% url 'edit' pk=bb.pk%}">Исправить</a></p>
+		<p><a href="{% url 'delete' pk=bb.pk %}">Удалить</a></p>
+	</div>
+	{%endfor%}
+{%else%}
+<h3>По запросу '{{keyword}}' в рубрике '{{current_rubric.name}}' ничего не найдено.</h3>
+<h4><a href="{% url 'index'%}">Перейти на главную страницу</a></h4>
+<h4><a href="{% url 'search'%}">Искать</a></h4>
+{%endif%}
 {%endblock%}
