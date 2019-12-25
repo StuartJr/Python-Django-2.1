@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap4',
+    'precise_bbcode',
     'captcha',
     'storys.apps.StorysConfig',
     'django.contrib.admin',
@@ -54,7 +56,7 @@ MIDDLEWARE = [
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
 
-CAPTCHA_LENGTH = '8'
+CAPTCHA_LENGTH = '3'
 
 ROOT_URLCONF = 'myfirst.urls'
 

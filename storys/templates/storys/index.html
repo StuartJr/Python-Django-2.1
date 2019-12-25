@@ -1,8 +1,8 @@
 {% extends "layout/basic.html" %}
 
+
 {%block content%}
 {%for bb in bbs.object_list%}
-<div class="b">
 	<h2><a href="{% url 'detail' pk=bb.pk%}">{{bb.title}}</a></h2>
 	<p>{{bb.content}}</p>
 	<h3>{{bb.price}}</h3>
@@ -22,8 +22,8 @@
 	 {% empty %}
 	  <h1>No comment</h1>
 
-</div>
 {%endfor%}
+
 
 <ul class="pagination">
 	{% if page.has_previous%}

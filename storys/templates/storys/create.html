@@ -1,13 +1,21 @@
 {% extends 'layout/basic.html'%}
+{% load bootstrap4 %}
 
 {%block title%}Добавление объявлений{%endblock%}
 
 {%block content%}
+<div class="w-50 p-3">
 <h2>Добавление объявлений</h2>
+
 <form method="post">
 	{%csrf_token%}
-	{{form.as_p}}
+	{% bootstrap_field form.title placeholder='Товар' show_label=False%}
+	{% bootstrap_field form.content placeholder='Описание товара' show_label=False%}
+	{% bootstrap_field form.price placeholder='Цена' show_label=False%}
+	{% bootstrap_field form.rubric show_label=False%}
+	
 	<input type="submit" value="Добавить">
 </form>
+</div>
 {% endblock %}
 

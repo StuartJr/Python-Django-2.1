@@ -9,13 +9,13 @@
 </head>
 <body>
 	<header>
-		<h1>Объявления</h1>
+		<h1>Объявление</h1>
 	</header>
 	<nav>
 		<a href="{% url 'search'%}">Искать</a>
 		<a href="{% url 'password_change'%}">Сменить пороль</a>
-		{% if user.is_authenticated %}
 		<a href="{% url 'logout'%}">Выйти</a>
+		{% if user.is_authenticated %}
 		{%else%}
 		<a href="{% url 'login'%}">Войти</a>
 		{%endif%}

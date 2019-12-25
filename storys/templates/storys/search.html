@@ -1,13 +1,17 @@
 {% extends 'layout/basic.html'%}
+{% load bootstrap4 %}
 
 {% block title%} Поиск {%endblock%}
 
 {%block content%}
+<div class="w-25 p-3">
 <h2>Поиск</h2>
 <form method="post">
 	{%csrf_token%}
-	{{form.as_p}}
+	{% bootstrap_field form.keyword placeholder='Искать' show_label=False%}
+	{% bootstrap_field form.rubric show_label=False%}
 	<input type="hidden" name = "next" value="{{next}}">
 	<input type="submit" value="Поиск">
 </form>
+</div>
 {%endblock%}
