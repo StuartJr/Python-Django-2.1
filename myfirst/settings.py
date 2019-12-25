@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'captcha',
     'storys.apps.StorysConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -52,6 +53,8 @@ MIDDLEWARE = [
 
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
+
+CAPTCHA_LENGTH = '8'
 
 ROOT_URLCONF = 'myfirst.urls'
 

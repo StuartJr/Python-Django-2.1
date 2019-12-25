@@ -5,6 +5,7 @@ from django.forms import ModelForm
 from django.forms import DecimalField
 from django.forms.widgets import Select, SelectDateWidget
 from .models import Story, Rubric
+from captcha.fields import CaptchaField
 
 
 class SearchForm(forms.Form):
@@ -31,6 +32,8 @@ class Storyform(forms.ModelForm):
 			raise ValidationError('Прошлогодний снег продовать' + 'не допускается')
 		return val
 
+	captcha = CaptchaField(label = 'Введите текст с картинки', 
+			error_messages = {'invalid':'Неправильный текст'})
 	title = forms.CharField(label='Название товара',
 	 validators = [validators.RegexValidator(regex='^.{4,}$')],
 	 error_messages = {'invalid':'Неправильное название товара'})
