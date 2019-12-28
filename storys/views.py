@@ -21,6 +21,35 @@ from django.contrib.auth.views import redirect_to_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count,Q
+from .models import Img
+from .forms import ImgForm
+from myfirst.settings import BASE_DIR
+import os
+from django.http import FileResponse
+
+FILES_ROOT = os.path.join(BASE_DIR, 'media')
+
+def get(request, filename):
+	fn = os.path.join(FILES_ROOT, filename)
+	return FileResponse(open(fn,'rb'), content_type = 'application/octet-stream')	
+
+def imags(request):
+	imgs = []
+	for entry in os.scandir(FILES_ROOT):
+		imgs.append(os.path.basename(entry))
+	context = {'imgs':imgs}
+	return render(request, 'storys/imags.html', context)
+
+def add(request):
+	if request.method == 'POST':
+		form = ImgForm(request.POST, request.FILES)
+		if form.is_valid():
+			form.save()
+			return redirect('index')
+	else:
+		form = ImgForm()
+	context = {'form':form}
+	return render(request, 'storys/add.html', context)
 
 def search(request):
 	if request.method == 'POST':

@@ -58,6 +58,9 @@ LOGIN_URL = 'login'
 
 CAPTCHA_LENGTH = '3'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 ROOT_URLCONF = 'myfirst.urls'
 
 TEMPLATES = [

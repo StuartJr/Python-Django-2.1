@@ -4,9 +4,21 @@ from django.core import validators
 from django.forms import ModelForm
 from django.forms import DecimalField
 from django.forms.widgets import Select, SelectDateWidget
-from .models import Story, Rubric
+from .models import Story, Rubric, Img
 from captcha.fields import CaptchaField
 
+class ImgForm(forms.ModelForm):
+	img = forms.ImageField(label = 'Изображение',
+			validators = [validators.FileExtensionValidator(
+			allowed_extensions = ('gif', 'jpg', 'png'))],
+			error_messages = {'invalid_extension': 'Этот формат файлов' +
+			'не поддерживается'})
+	desc = forms.CharField(label = 'Описание', 
+							widget = forms.widgets.Textarea())
+
+	class Meta():
+		model = Img
+		fields = '__all__'
 
 class SearchForm(forms.Form):
 	keyword = forms.CharField(max_length=20, label = 'Искомое слово')

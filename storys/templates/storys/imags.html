@@ -1,0 +1,16 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+
+{%block title%}Изображения{%endblock%}
+
+{%block content%}
+<h2>Изображения</h2>
+<form method="POST">
+{% for img in imgs%}
+	<div class="image">
+		<p><img src="{% url 'get' filename=img%}" ></p>
+	</div>
+	{{ img.desc }}
+{% endfor %}
+</form>
+{% endblock %}

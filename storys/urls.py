@@ -5,7 +5,7 @@ from django.contrib.auth.views import PasswordResetView
 from django.contrib.auth.views import PasswordResetDoneView
 from django.contrib.auth.views import PasswordResetConfirmView
 from django.contrib.auth.views import PasswordResetCompleteView
-from .views import rubrics, bbs, search
+from .views import rubrics, bbs, search, add, get, imags
 from .views import StorysIndexView, StoryByRubricView
 from .views import StoryCreateView, StoryEditView, StoryDeleteView
 from .views import StoryAddView, StoryDetailView, StoryRedirectView
@@ -13,6 +13,9 @@ from .views import StoryArchiveYear, StoryArchiveMounth, index, editet, delete
 
 
 urlpatterns = [
+	path('media/get/', imags, name = 'imags'),
+	path('get/<path:filename>', get, name = 'get'),
+	path('media/', add , name = 'media'),
 	path('search/', search, name = 'search'),
 	path('accounts/reset/done/', PasswordResetCompleteView.as_view(template_name = 'registration/password_confirmed.html'), name = 'password_reset_comlete'),
 	path('accounts/reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name = 'registration/confirm_password.html'), name = 'password_reset_confirm'),

@@ -1,0 +1,18 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+
+{%block title%}Добавление изображений{%endblock%}
+
+{%block content%}
+<div class="w-50 p-3">
+<h2>Добвить изображение</h2>
+
+<form enctype="multipart/form-data" method="post">
+	{%csrf_token%}
+	{% bootstrap_field form.img show_label=False%}
+	{% bootstrap_field form.desc placeholder='Описание' show_label=False%}
+	<input type="submit" value="Добавить">
+</form>
+</div>
+<a href="{% url 'imags' %}"><h3>Изображения</h3></a>
+{% endblock %}

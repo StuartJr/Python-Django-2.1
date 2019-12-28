@@ -12,6 +12,7 @@
 		<h1>Объявление</h1>
 	</header>
 	<nav>
+		<a href="{% url 'index'%}">Главная</a>
 		<a href="{% url 'search'%}">Искать</a>
 		<a href="{% url 'password_change'%}">Сменить пороль</a>
 		<a href="{% url 'logout'%}">Выйти</a>
@@ -19,9 +20,9 @@
 		{%else%}
 		<a href="{% url 'login'%}">Войти</a>
 		{%endif%}
-		<a href="{% url 'index'%}">Главная</a>
 		{% if perms.storys.add_bb %}
 		<a href="{%url 'add'%}">Добавить</a>
+		<a href="{%url 'media'%}">Добавить изображение</a>
 		<a href="{% url 'rubrics'%}">Рубрики</a>
 		{%endif%}
 		{% for rubric in rubrics%}

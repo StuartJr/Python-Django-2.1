@@ -1,11 +1,11 @@
 {% extends "layout/basic.html" %}
-
+{% load filtersandtags %}
 
 {%block content%}
 {%for bb in bbs.object_list%}
 	<h2><a href="{% url 'detail' pk=bb.pk%}">{{bb.title}}</a></h2>
 	<p>{{bb.content}}</p>
-	<h3>{{bb.price}}</h3>
+	<h3>{{bb.price|currency }}</h3>
 	<p><a href="{% url 'by_rubric' bb.rubric.pk%}">
 	{{bb.rubric.name}}</a></p>
 	<p><a href="{% url 'bbs' bb.rubric.pk%}">
@@ -44,6 +44,7 @@
     </li>
 	</ul>
 	{% endif %}
+	<!-- {% ulist ', ' '1' '2' '3' '4' '5' '6' '7' '8' '9'%} -->
 {%endblock%}
 
 	
