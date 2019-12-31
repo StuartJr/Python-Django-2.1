@@ -27,6 +27,12 @@ from myfirst.settings import BASE_DIR
 import os
 from django.http import FileResponse
 
+def delet(request, filename):
+	img = Img.objects.get(img=filename)
+	img.img.delete()
+	img.delete()
+	return redirect('index')
+
 FILES_ROOT = os.path.join(BASE_DIR, 'media')
 
 def get(request, filename):

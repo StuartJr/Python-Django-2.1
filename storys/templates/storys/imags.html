@@ -5,12 +5,10 @@
 
 {%block content%}
 <h2>Изображения</h2>
-<form method="POST">
 {% for img in imgs%}
 	<div class="image">
-		<p><img src="{% url 'get' filename=img%}" ></p>
+		<p><img src="{% url 'get' filename=img%}" width="400"></p>
+		<a href="{% url 'delet' filename=img %}">Удалить</a>
 	</div>
-	{{ img.desc }}
 {% endfor %}
-</form>
 {% endblock %}

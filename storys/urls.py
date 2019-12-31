@@ -5,7 +5,7 @@ from django.contrib.auth.views import PasswordResetView
 from django.contrib.auth.views import PasswordResetDoneView
 from django.contrib.auth.views import PasswordResetConfirmView
 from django.contrib.auth.views import PasswordResetCompleteView
-from .views import rubrics, bbs, search, add, get, imags
+from .views import rubrics, bbs, search, add, get, imags, delet
 from .views import StorysIndexView, StoryByRubricView
 from .views import StoryCreateView, StoryEditView, StoryDeleteView
 from .views import StoryAddView, StoryDetailView, StoryRedirectView
@@ -13,6 +13,7 @@ from .views import StoryArchiveYear, StoryArchiveMounth, index, editet, delete
 
 
 urlpatterns = [
+	path('media/get/<path:filename>', delet, name = 'delet'),
 	path('media/get/', imags, name = 'imags'),
 	path('get/<path:filename>', get, name = 'get'),
 	path('media/', add , name = 'media'),
