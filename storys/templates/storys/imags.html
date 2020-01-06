@@ -1,5 +1,6 @@
 {% extends "layout/basic.html" %}
 {% load bootstrap4 %}
+{% load thumbnail%}
 
 {%block title%}Изображения{%endblock%}
 
@@ -7,7 +8,7 @@
 <h2>Изображения</h2>
 {% for img in imgs%}
 	<div class="image">
-		<p><img src="{% url 'get' filename=img%}" width="400"></p>
+		<p><img src="{% url 'get' filename=img%}" ></p>
 		<a href="{% url 'delet' filename=img %}">Удалить</a>
 	</div>
 {% endfor %}

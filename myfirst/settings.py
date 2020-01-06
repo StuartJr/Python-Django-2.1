@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'easy_thumbnails',
+    'django_cleanup',
     'bootstrap4',
     'precise_bbcode',
     'captcha',
@@ -52,6 +54,30 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+THUMBNAIL_DEFAULT_OPTIONS = {'quality': 90, 'subsampling':1,}
+
+THUMBNAIL_ALIASES = {
+    'storys.Story':{
+        'default':{
+            'size':(500, 300),
+            'crop': 'scale',
+        },
+    },
+    'storys':{
+        'default':{
+            'size':(400, 300),
+            'crop':'smart',
+            'bw': True,
+        },
+    },
+    '':{
+        'default':{
+            'size': (180, 240),
+            'crop': 'scale',
+        },
+    },
+}
 
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
