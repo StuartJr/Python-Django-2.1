@@ -19,6 +19,7 @@
 		{% if user.is_authenticated %}
 		{%else%}
 		<a href="{% url 'login'%}">Войти</a>
+		<a href="{% url 'social:begin' 'vk-oauth2'%}">Войти через ВК</a>
 		{%endif%}
 		{% if perms.storys.add_bb %}
 		<a href="{%url 'add'%}">Добавить</a>

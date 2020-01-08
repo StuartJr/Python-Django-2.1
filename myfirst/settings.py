@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'social_django',
     'easy_thumbnails',
     'django_cleanup',
     'bootstrap4',
@@ -54,6 +55,19 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = '7273963'
+SOCIAL_AUTH_VK_OAUTH2_SECRET = '0ooWVXDTAHlveXz5pSba'
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
+
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+
+
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.vk.VKOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+    )
 
 THUMBNAIL_DEFAULT_OPTIONS = {'quality': 90, 'subsampling':1,}
 
@@ -89,6 +103,8 @@ MEDIA_URL = '/media/'
 
 ROOT_URLCONF = 'myfirst.urls'
 
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -100,6 +116,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -123,6 +141,10 @@ DATABASES = {
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
+    # {
+    #     'NAME': 'NoForbiddenCharsValidator',
+    #     'OPTIONS': {'forbidden_chars': ('', ',', '.', ':', ';')},
+    # },
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
