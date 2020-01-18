@@ -2,6 +2,15 @@
 
 {%block title%}{{story.title}}{%endblock%}
 {%block content%}
+{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+		<li {% if message.tags %} class="{{ message.tags }}"{% endif%}>
+			{{ message }}
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}	
 <p>Рубрика:{{story.rubric.name}}</p>
 <h2>{{story.title}}</h2>
 <p>{{story.content}}</p>

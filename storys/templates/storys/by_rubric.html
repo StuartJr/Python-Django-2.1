@@ -3,6 +3,15 @@
 {%block title%}{{current_rubric.name}}{%endblock%}
 
 {%block content%}
+{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+		<li {% if message.tags %} class="{{ message.tags }}"{% endif%}>
+			{{ message }}
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
 <h2>Рубрика:{{current_rubric.name}}</h2>
 {% for bb in bbs%}
 <div>

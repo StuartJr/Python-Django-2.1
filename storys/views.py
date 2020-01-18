@@ -26,22 +26,11 @@ from .forms import ImgForm
 from myfirst.settings import BASE_DIR
 import os
 from django.http import FileResponse
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 
-# class NoForbiddenCharsValidator:
-# 	def __init__(self, forbidden_chars = (' ',)):
-# 		self.forbidden_chars = forbidden_chars
+MESSAGE_LEVEL = messages.DEBUG
 
-# 	def validate(self, password, user = None):
-# 		for fc in self.forbidden_chars:
-# 			if fc in password:
-# 				raise ValidationError(
-# 					'Пороль не должен содержать недопустимые' + \
-# 					'символы %s ' % ','.join(self.forbidden_chars),
-# 					code = 'forbidden_chars_present')
-
-# 	def get_help_text(self):
-# 		return 'Пороль не должен содержать недопустимые' + \
-# 		'символы %s ' % ','.join(self.forbidden_chars)
 
 def delet(request, filename):
 	img = Img.objects.get(img=filename)
@@ -62,11 +51,12 @@ def imags(request):
 	context = {'imgs':imgs}
 	return render(request, 'storys/imags.html', context)
 
-def add(request):
+def media(request):
 	if request.method == 'POST':
 		form = ImgForm(request.POST, request.FILES)
 		if form.is_valid():
 			form.save()
+			messages.success(request, 'Изображение добавлено')
 			return redirect('index')
 	else:
 		form = ImgForm()
@@ -138,6 +128,7 @@ def delete(request, pk):
 	bb=Story.objects.get(pk=pk)
 	if request.method == 'POST':
 		bb.delete()
+		messages.success(request, 'Объявлене успешно удалено')
 		return HttpResponseRedirect(reverse('by_rubric',
 				kwargs = {'rubric_id':bb.rubric.pk}))
 	else:
@@ -151,6 +142,7 @@ def editet(request, pk):
 		bbf=Storyform(request.POST, instance = bb)
 		if bbf.is_valid():
 			bbf.save()
+			messages.success(request, 'Объявлене успешно изменено')
 			return HttpResponseRedirect(reverse('by_rubric',
 				kwargs = {'rubric_id':bbf.cleaned_data['rubric'].pk}))
 
@@ -259,10 +251,13 @@ class StoryEditView(UpdateView):
 		context['rubrics'] = Rubric.objects.all()
 		return context
 
-class StoryAddView(FormView):
+class StoryAddView(FormView, SuccessMessageMixin):
+	initial = {'price': 0.0}
 	template_name='storys/create.html'
 	from_class=Storyform
-	initial = {'price': 0.0}
+	success_url = '/{rubric_id}'
+	success_message = 'Объявлене "%(title)s" успешно создано'
+
 
 	def get_context_data(self, *args, **kwargs):
 		context = super().get_context_data(*args,**kwargs)

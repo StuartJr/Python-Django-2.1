@@ -2,6 +2,16 @@
 {% load filtersandtags %}
 
 {%block content%}
+	{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+		<li {% if message.tags %} class="{{ message.tags }}"{% endif%}>
+			{{ message }}
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	
 {%for bb in bbs.object_list%}
 	<h2><a href="{% url 'detail' pk=bb.pk%}">{{bb.title}}</a></h2>
 	<p>{{bb.content}}</p>
