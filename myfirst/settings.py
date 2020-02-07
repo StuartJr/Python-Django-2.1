@@ -47,9 +47,12 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.http.ConditionalGetMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -93,6 +96,19 @@ THUMBNAIL_ALIASES = {
     },
 }
 
+EMAIL_BACKEND = {
+    
+}
+DEFAULT_FROM_EMAIL = {
+    "webmasters@localhos.com"
+}
+
+EMAIL_HOST_USER = {
+    "Stuart"
+}
+
+
+
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
 
@@ -103,7 +119,15 @@ MEDIA_URL = '/media/'
 
 ROOT_URLCONF = 'myfirst.urls'
 
-
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'TIMEOUT': 120,
+        'OPTIONS': {
+            'MAX_ENTRIES': 200,
+        }
+    }
+}
 
 TEMPLATES = [
     {

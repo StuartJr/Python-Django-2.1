@@ -28,9 +28,21 @@ import os
 from django.http import FileResponse
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models.signals import post_save
+from django.core.mail import send_mail
 
 MESSAGE_LEVEL = messages.DEBUG
 
+
+# send_mail('Subject here', 'Here is the message.', 'from@example.com',
+#     ['Stuart688@yandex.ru'], fail_silently=False)
+
+def post_save_dispatcher(sender, **kwargs):
+	if kwargs['created']:
+		print('Объявление в рубрике "%s" создано' % \
+			kwargs['instance'].rubric.name)
+
+post_save.connect(post_save_dispatcher, sender= Story)
 
 def delet(request, filename):
 	img = Img.objects.get(img=filename)

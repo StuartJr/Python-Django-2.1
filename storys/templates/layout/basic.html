@@ -1,4 +1,5 @@
 {%load static%}
+{%load cache%}
 <!DOCTYPE html>
 <html lang="ru-RU">
 <head>
@@ -11,12 +12,14 @@
 	<header>
 		<h1>Объявления</h1>
 	</header>
+	{% cache 300 navbar%} <!-- cache время хранения и ключ -->
 	<nav>
 		<a href="{% url 'index'%}">Главная</a>
 		<a href="{% url 'search'%}">Искать</a>
 		<a href="{% url 'password_change'%}">Сменить пороль</a>
 		<a href="{% url 'logout'%}">Выйти</a>
-		{% if user.is_authenticated %}
+	{%endcache%}
+		{% if user.is_authenticated %}<!-- ---Если пользователь вошёл -->
 		{%else%}
 		<a href="{% url 'login'%}">Войти</a>
 		<a href="{% url 'social:begin' 'vk-oauth2'%}">Войти через ВК</a>
