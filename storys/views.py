@@ -30,9 +30,102 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models.signals import post_save
 from django.core.mail import send_mail
+from .serializers import RubricSerializers
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework import generics
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
 
 MESSAGE_LEVEL = messages.DEBUG
 
+class APIRubricViewSet(ModelViewSet):
+	queryset = Rubric.objects.all()
+	serializer_class = RubricSerializers
+	permission_classes = (IsAuthenticated,)
+
+class APIRubrics(generics.ListCreateAPIView):
+	queryset = Rubric.objects.all()
+	serializer_class = RubricSerializers
+	permission_classes = (IsAuthenticated,)
+
+class APIRubricDetail(generics.RetrieveUpdateAPIView):
+	queryset = Rubric.objects.all()
+	serializer_class = RubricSerializers
+	permission_classes = (IsAuthenticated,)
+
+# class APIRubricDetail(APIView):
+# 	def get(self, request, pk):
+# 		rubric = Rubric.objects.get(pk=pk)
+# 		serializer = RubricSerializers(rubric)
+# 		return Response(serializer.data)
+# 	def putch(self, request, pk):
+# 		rubric = Rubric.objects.get(pk=pk)
+# 		serializer = RubricSerializers(rubric, data=request.data)
+# 		if serializer.is_valid():
+# 			serializer.save()
+# 			return Response(serializer.data)
+# 		return Response(serializer.errors,
+# 						status=status.HTTP_400_BAD_REQUEST)
+# 	def put(self, request, pk):
+# 		rubric = Rubric.objects.get(pk=pk)
+# 		serializer = RubricSerializers(rubric, data=request.data)
+# 		if serializer.is_valid():
+# 			serializer.save()
+# 			return Response(serializer.data)
+# 		return Response(serializer.errors,
+# 						status=status.HTTP_400_BAD_REQUEST)
+# 	def delete(self, request, pk):
+# 			rubric = Rubric.objects.get(pk=pk)
+# 			rubric.delete()
+# 			return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# class APIRubrics(APIView):
+# 	def get(self, request):
+# 		rubric = Rubric.objects.all()
+# 		serializer = RubricSerializers(rubric, many = True)
+# 		return Response(serializer.data)
+# 	def post(self, request):
+# 		serializer = RubricSerializers(data = request.data)
+# 		if serializer.is_valid():
+# 			serializer.save()
+# 			return Response(serializer.data, 
+# 							status = status.HTTP_201_CREATED)
+# 		return Response(serializer.data,
+# 							status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE', 'PUTCH'])
+def api_rubrics_detail(request, pk):
+	rubric = Rubric.objects.get(pk=pk)
+	if request.method == 'GET':
+		serializer = RubricSerializers(rubric)
+		return Response(serializer.data)
+	elif request.method == 'PUT' or request.method == 'PUTCH':
+		serializer = RubricSerializers(rubric, data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data)
+		return Response(serializer.errors,
+						status=status.HTTP_400_BAD_REQUEST)
+	elif request.method == 'DELETE':
+		rubric.delete()
+		return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'POST'])
+def api_rubrics(request):
+	if request.method == 'GET':
+		rubrics = Rubric.objects.all()
+		serializer = RubricSerializers(rubrics, many = True)
+		return Response(serializer.data)
+	elif request.method == 'POST':
+		serializer = RubricSerializers(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.errors,
+							status = status.HTTP_400_BAD_REQUEST)
 
 # send_mail('Subject here', 'Here is the message.', 'from@example.com',
 #     ['Stuart688@yandex.ru'], fail_silently=False)

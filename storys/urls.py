@@ -11,9 +11,17 @@ from .views import StorysIndexView, StoryByRubricView
 from .views import StoryCreateView, StoryEditView, StoryDeleteView
 from .views import StoryAddView, StoryDetailView, StoryRedirectView
 from .views import StoryArchiveYear, StoryArchiveMounth, index, editet, delete
+from .views import APIRubrics, APIRubricDetail, APIRubricViewSet
+from rest_framework.routers import DefaultRouter
+from django.urls import path, include
 
+router = DefaultRouter()
+router.register('rubrics', APIRubricViewSet)
 
 urlpatterns = [
+	path('api/', include(router.urls)),
+	# path('api/rubrics/<int:pk>', APIRubricDetail.as_view()),
+	# path('api/rubrics/', APIRubrics.as_view()),
 	path('media/get/<path:filename>', delet, name = 'delet'),
 	path('media/get/', imags, name = 'imags'),
 	path('get/<path:filename>', get, name = 'get'),

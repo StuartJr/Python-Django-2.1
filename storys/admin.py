@@ -16,8 +16,8 @@ discount.short_description = 'Уменьшить цену вдвое'
 
 class SAdmin(admin.ModelAdmin):
 
-	def view_on_sire(self, rec):
-		return reverse('storys:detail', kwargs = {'pk':rec.pk})
+	def view_on_site(self, rec):
+		return reverse('detail', kwargs = {'pk':rec.pk})
 
 	formfield_overrides = {
 		models.ForeignKey: {'widget': forms.widgets.Select(
@@ -39,6 +39,7 @@ class SAdmin(admin.ModelAdmin):
 	list_display_links = ('title', 'content')
 	search_fields = ('title', '^content',)
 	actions = (discount,)
+	list_filter = ('title', 'rubric__name',)
 
 admin.site.register(Story, SAdmin)
 admin.site.register(Rubric)
